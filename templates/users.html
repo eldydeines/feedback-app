@@ -1,11 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>User Info</h1>
+<h1>User Profile</h1>
+<div>
+    <p>First Name: {{user.first_name}}</p>
+    <p>Last Name: {{user.last_name}}</p>
+    <p>Email: {{user.email}}</p>
+    <p>Username: {{user.username}}</p>
 
-<h3>Username: {{user.username}}</h3>
-<p>First Name: {{user.first_name}}</p>
-<p>Lastt Name: {{user.last_name}}</p>
-<p>Email: {{user.email}}</p>
+    <p>Do you need to delete your account?
+    <form style="display:inline;" action="/users/{{user.username}}/delete" method="POST">
+        <button class="btn btn-sm btn-danger">Delete</button>
+    </form>
+    </p>
+</div>
 
+<div>
+    <h3>User Feedback</h3>
+    <a href="/users/{{user.username}}/feedback/add">Click here to add more feedback!</a>
+    {% for fb in feedback %}
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title text-info">
+                {{fb.title}}
+
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">Date goes here</h6>
+            <p class="card-text">
+                {{fb.content}}
+            </p>
+            <form style="display:inline;" action="/feedback/{{fb.id}}/update" method="POST">
+                <button class="btn btn-sm btn-success">Edit</button>
+            </form>
+            <form style="display:inline;" action="/feedback/{{fb.id}}/delete" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
